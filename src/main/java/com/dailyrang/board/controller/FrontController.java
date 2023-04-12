@@ -63,6 +63,22 @@ public class FrontController extends HttpServlet {
 			
 			RequestDispatcher dispatcher = request.getRequestDispatcher("list.jsp");
 			dispatcher.forward(request, response);
+		} else if(comm.equals("/content_view.do")) {
+			
+			String bnum = request.getParameter("bnum");
+			
+			BoardDto dto = dao.content_view(bnum);
+			request.setAttribute("contentDto", dto);
+			
+			RequestDispatcher dispatcher = request.getRequestDispatcher("contentView.jsp");
+			dispatcher.forward(request, response);
+		} else if(comm.equals("/delete.do")) {
+			String bnum = request.getParameter("bnum");
+			
+//			dao.delete(bnum);
+			
+			RequestDispatcher dispatcher = request.getRequestDispatcher("list.do");
+			dispatcher.forward(request, response);
 		}
 		
 	}
