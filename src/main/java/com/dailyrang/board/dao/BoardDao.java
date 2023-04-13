@@ -156,44 +156,39 @@ public class BoardDao {
 		
 	}
 
-//	public int delete(String bnum) {
-//		BoardDto dto = null;
-//		
-//		Connection conn = null;
-//		PreparedStatement pstmt = null;
-//		ResultSet rs = null;
-//		
-//		String sql = "DELETE * FROM board WHERE bnum=?";
-//		
-//		int dbFlag = 0;
-//		
-//		try {
-//			Class.forName(driverName);
-//			conn = DriverManager.getConnection(url, username, password);
-//			
-//			pstmt = conn.prepareStatement(sql);
-//			pstmt.setString(1, bnum);				
-//			
-//			dbFlag = pstmt.executeUpdate();
-//			
-//		} catch(Exception e) {
-//			e.printStackTrace();
-//		} finally {
-//			try {
-//				if(pstmt != null) {
-//					pstmt.close();
-//				}
-//				if(conn != null) {
-//					conn.close();
-//				}
-//			} catch(Exception e) {
-//				e.printStackTrace();
-//			}			
-//		}
-//		
-//		return dbFlag;
+	public void delete(String bnum) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
 		
-//	}
-	
+		String sql = "DELETE FROM board WHERE bnum=?";
+		
+		int bnumInt = Integer.parseInt(bnum);//문자열을 정수로 변환
+
+//		int bnumInt = (int)bunm; 잘못된 형변환 방법		
+		
+		try {
+			Class.forName(driverName);
+			conn = DriverManager.getConnection(url, username, password);
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, bnumInt);
+			
+			pstmt.executeUpdate();
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(pstmt != null) {
+					pstmt.close();
+				}
+				if(conn != null) {
+					conn.close();
+				}
+			} catch(Exception e) {
+				e.printStackTrace();
+			}			
+		}
+	}
 
 }

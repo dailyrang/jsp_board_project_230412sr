@@ -75,7 +75,7 @@ public class FrontController extends HttpServlet {
 		} else if(comm.equals("/delete.do")) {
 			String bnum = request.getParameter("bnum");
 			
-//			dao.delete(bnum);
+			dao.delete(bnum);
 			
 			RequestDispatcher dispatcher = request.getRequestDispatcher("list.do");
 			dispatcher.forward(request, response);
