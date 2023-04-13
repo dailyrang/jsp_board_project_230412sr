@@ -10,10 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.dailyrang.board.command.DeleteCommand;
-import com.dailyrang.board.command.WriteCommand;
+import com.dailyrang.board.command.*;
 import com.dailyrang.board.dao.BoardDao;
-import com.dailyrang.board.dto.BoardDto;
+
 
 /**
  * Servlet implementation class FrontController
@@ -39,6 +38,10 @@ public class FrontController extends HttpServlet {
 		// TODO Auto-generated method stub
 		//System.out.println(request.getContextPath());
 		//System.out.println(request.getRequestURI());
+		request.setCharacterEncoding("UTF-8");//한글 깨짐 방지
+		
+		Command command = null;
+		
 		String uri = request.getRequestURI();
 		String conPath = request.getContextPath();
 		String comm = uri.substring(conPath.length());//.do 요청만 빼서 저장
@@ -50,36 +53,35 @@ public class FrontController extends HttpServlet {
 			RequestDispatcher dispatcher = request.getRequestDispatcher("writeForm.jsp");
 			dispatcher.forward(request, response);
 		} else if(comm.equals("/write.do")) {
-			WriteCommand command = new WriteCommand();
+			
+			command = new WriteCommand();
 			command.execute(request, response);
 			
 			RequestDispatcher dispatcher = request.getRequestDispatcher("list.do");
 			dispatcher.forward(request, response);
 			
 		} else if(comm.equals("/list.do")) {
-			ArrayList<BoardDto> dtos = dao.list();
-			request.setAttribute("list", dtos);
+			
+			command = new ListCommand();
+			command.execute(request, response);
 			
 			RequestDispatcher dispatcher = request.getRequestDispatcher("list.jsp");
 			dispatcher.forward(request, response);
 		} else if(comm.equals("/content_view.do")) {
 			
-			String bnum = request.getParameter("bnum");
-			
-			BoardDto dto = dao.content_view(bnum);
-			request.setAttribute("contentDto", dto);
+			command = new ContentConnand();
+			command.execute(request, response);			
 			
 			RequestDispatcher dispatcher = request.getRequestDispatcher("contentView.jsp");
 			dispatcher.forward(request, response);
 		} else if(comm.equals("/delete.do")) {
-		
 			
-			DeleteCommand command = new DeleteCommand();
+			command = new DeleteCommand();
 			command.execute(request, response);
 			
 			RequestDispatcher dispatcher = request.getRequestDispatcher("list.do");
 			dispatcher.forward(request, response);
-		}
+		} 
 		
 	}
 

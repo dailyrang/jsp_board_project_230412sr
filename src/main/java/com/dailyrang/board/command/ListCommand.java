@@ -1,17 +1,24 @@
 package com.dailyrang.board.command;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.dailyrang.board.dao.BoardDao;
+import com.dailyrang.board.dto.BoardDto;
 
-public class DeleteCommand implements Command {
+public class ListCommand implements Command {
+
+	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) {
 		
-		String bnum = request.getParameter("bnum");	
 		BoardDao dao = new BoardDao();
-		dao.delete(bnum);
+		
+		ArrayList<BoardDto> dtos = dao.list();
+		
+		request.setAttribute("list", dtos);
+			
 	}
 
-	
 }

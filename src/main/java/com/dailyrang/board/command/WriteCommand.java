@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.dailyrang.board.dao.BoardDao;
 
-public class WriteCommand {
+public class WriteCommand implements Command{
 	
 public void execute(HttpServletRequest request, HttpServletResponse response) {
 		
@@ -14,8 +14,5 @@ public void execute(HttpServletRequest request, HttpServletResponse response) {
 	String content = request.getParameter("content");
 	BoardDao dao = new BoardDao();
 	dao.write(writer, subject, content);
-
 	}
-
-
 }
