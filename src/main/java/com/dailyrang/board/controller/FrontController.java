@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.dailyrang.board.command.DeleteCommand;
+import com.dailyrang.board.command.WriteCommand;
 import com.dailyrang.board.dao.BoardDao;
 import com.dailyrang.board.dto.BoardDto;
 
@@ -48,11 +50,8 @@ public class FrontController extends HttpServlet {
 			RequestDispatcher dispatcher = request.getRequestDispatcher("writeForm.jsp");
 			dispatcher.forward(request, response);
 		} else if(comm.equals("/write.do")) {
-			String writer = request.getParameter("writer");
-			String subject = request.getParameter("subject");
-			String content = request.getParameter("content");
-			
-			dao.write(writer, subject, content);
+			WriteCommand command = new WriteCommand();
+			command.execute(request, response);
 			
 			RequestDispatcher dispatcher = request.getRequestDispatcher("list.do");
 			dispatcher.forward(request, response);
@@ -73,9 +72,10 @@ public class FrontController extends HttpServlet {
 			RequestDispatcher dispatcher = request.getRequestDispatcher("contentView.jsp");
 			dispatcher.forward(request, response);
 		} else if(comm.equals("/delete.do")) {
-			String bnum = request.getParameter("bnum");
+		
 			
-			dao.delete(bnum);
+			DeleteCommand command = new DeleteCommand();
+			command.execute(request, response);
 			
 			RequestDispatcher dispatcher = request.getRequestDispatcher("list.do");
 			dispatcher.forward(request, response);
